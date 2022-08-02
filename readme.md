@@ -4,7 +4,7 @@ This challenge is designed to assess the JavaScript skills you have gained so fa
 
 There are 5 functions that need to be written. Each completed function (passes all the tests) will be worth 1 point.
 
-A minimum of 7 points must be attained in order to pass this assessment.
+A minimum of 3.5 points must be attained in order to pass this assessment.
 
 You may receive partial credit (0.5 points) for code that is close to passing the tests, but does not pass all the tests.
 
