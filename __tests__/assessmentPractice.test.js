@@ -5,6 +5,7 @@ const {
     getAllEmployers,
     getPersonByName,
     ipIsPresent,
+    findLargeOctets,
 } = require("../assessmentPractice");
 
 describe("filterDataByEmployer()", () => {
@@ -194,5 +195,42 @@ describe("ipIsPresent()", () => {
         people.some = jest.fn();
         ipIsPresent(people, "1.1.1.1");
         expect(people.some).toHaveBeenCalled();
+    })
+})
+
+describe("isLargeOctet()", () => {
+    test("should throw an error if people is empty", () => {
+        const people = [];
+        expect(() => { findLargeOctets(people) }).toThrow("The `people` array is empty.")
+    });
+
+    test("should filter IPs", () => {
+        const people = data.slice(0, 10);
+        const expected = [
+            {
+              id: 3,
+              first_name: 'Darlleen',
+              last_name: 'Trickey',
+              email: 'dtrickey2@ycombinator.com',
+              gender: 'Female',
+              ip_address: '109.100.153.163',
+              credit_card: { number: '3563368800591574', type: 'jcb' },
+              username: 'dtrickey2',
+              employer: 'Edgetag'
+            },
+            {
+              id: 7,
+              first_name: 'Livvy',
+              last_name: 'Stidworthy',
+              email: 'lstidworthy6@techcrunch.com',
+              gender: 'Female',
+              ip_address: '183.102.246.106',
+              credit_card: { number: '5602245730954163', type: 'bankcard' },
+              username: 'lstidworthy6',
+              employer: 'Dabjam'
+            }
+          ];
+
+        expect(findLargeOctets(people)).toEqual(expected);
     })
 })
