@@ -45,7 +45,10 @@ The data you're working with will look like this:
     @returns {Object[]} - A list of people that are employed by the given employer
 */
 
-function filterDataByEmployer(people, employer) {}
+function filterDataByEmployer(people, employer) {
+  if (Object.keys(people).length === 0) throw "The `people` array is empty.";
+  return people.filter((person) => person.employer === employer);
+}
 
 /* 
     Returns the credit card details of every person in the given array. Each object in the array should look like: 
@@ -58,9 +61,34 @@ function filterDataByEmployer(people, employer) {}
 
     @params {Object[]} people - Array of objects matching the format above.
     @returns {Object[]} - Array of objects matching the pattern in this problem description.
-*/
+{
+    id: Number
+    first_name: String
+    last_name: String
+    email: String
+    gender: String
+    ip_address: String
+    credit_card: {
+        number: String,
+        type: String,
+    },
+    username: String,
+    employer: String,
+}
+    */
 
-function getCreditCardDetails(people) {}
+function getCreditCardDetails(people) {
+  if (Object.keys(people).length === 0) throw "The `people` array is empty.";
+  return people.map((person) => {
+    let { first_name, last_name, credit_card } = person;
+    let obj = {
+      name: `${first_name} ${last_name}`,
+      number: `${credit_card.number}`,
+      type: `${credit_card.type}`,
+    };
+    return obj;
+  });
+}
 
 /* 
     Returns a unique array of employers, sorted alphabetically from A-Z.
@@ -75,7 +103,14 @@ function getCreditCardDetails(people) {}
     @returns {String[]} - Array of employers, sorted alphabetically, unique values only.
 */
 
-function getAllEmployers(people) {}
+function getAllEmployers(people) {
+  if (Object.keys(people).length === 0) throw "The `people` array is empty.";
+  const empUniq = [];
+  people.forEach((person) => {
+    if (!empUniq.includes(person.employer)) empUniq.push(person.employer);
+  });
+  return empUniq.sort((a, b) => a.localeCompare(b));
+}
 
 /* 
     Finds a person by a given first name and last name from a list of people.
@@ -92,7 +127,14 @@ function getAllEmployers(people) {}
     @returns {Object} - Person with the given first and last name.
 */
 
-function getPersonByName(people, first, last) {}
+function getPersonByName(people, first, last) {
+  if (Object.keys(people).length === 0) throw "The `people` array is empty.";
+  let result = people.find(
+    (person) => person.last_name === last && person.first_name === first
+  );
+  if (result === undefined) throw "Person with given name could not be found.";
+  return result;
+}
 
 /* 
     Determines whether any person has a given IP.
@@ -108,7 +150,12 @@ function getPersonByName(people, first, last) {}
     @returns {Boolean} - Whether we've found the IP address.
 */
 
-function ipIsPresent(people, ipAddress) {}
+function ipIsPresent(people, ipAddress) {
+  if (Object.keys(people).length === 0) throw "The `people` array is empty.";
+  return !!people.some((person) => person.ip_address === ipAddress)
+    ? true
+    : false;
+}
 
 /* 
     An IP address is composed of four numbers, each separated by a dot. Each of those numbers will be between 1 and 255, with some additional rules that we won't get into here. We want to find all people that have IP addresses where all of those numbers in their IP address are greater than 100.
@@ -129,13 +176,20 @@ function ipIsPresent(people, ipAddress) {}
     @returns {Object[]} - Array of people matching the conditions in the description.
 */
 
-function findLargeOctets(people) {}
+function findLargeOctets(people) {
+  //   let array = [];
+  if (Object.keys(people).length === 0) throw "The `people` array is empty.";
+  return people.filter((person) => {
+    let ip = person["ip_address"].split(".");
+    if (ip[0] > 100 && ip[1] > 100 && ip[2] > 100 && ip[3] > 100) return person;
+  });
+}
 
 module.exports = {
-    filterDataByEmployer,
-    getCreditCardDetails,
-    getAllEmployers,
-    getPersonByName,
-    ipIsPresent,
-    findLargeOctets,
-}
+  filterDataByEmployer,
+  getCreditCardDetails,
+  getAllEmployers,
+  getPersonByName,
+  ipIsPresent,
+  findLargeOctets,
+};
